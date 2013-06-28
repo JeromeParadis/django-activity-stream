@@ -105,7 +105,7 @@ class Action(models.Model):
         ctx = {
             'actor': self.actor,
             'verb': self.verb,
-            'action_object': self.action_object,
+            'action_object': self.action_object.get_action_object_name() if hasattr(self.action_object, 'get_action_object_name') else self.action_object,
             'target': self.target,
             'timesince': self.timesince()
         }
