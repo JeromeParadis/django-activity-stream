@@ -1,7 +1,7 @@
 import django
 from django.conf import settings
 from django.db.models import get_model
-
+from django.utils.translation import ugettext_lazy as _
 
 SETTINGS = getattr(settings, 'ACTSTREAM_SETTINGS', {})
 
@@ -31,3 +31,8 @@ FETCH_RELATIONS = SETTINGS.get('FETCH_RELATIONS', True)
 GFK_FETCH_DEPTH = SETTINGS.get('GFK_FETCH_DEPTH', 0)
 
 USE_JSONFIELD = SETTINGS.get('USE_JSONFIELD', False)
+
+VERB_CHOICES = SETTINGS.get('VERB_CHOICES', (
+            (1, _('started following')),
+            (2, _('stopped following'))
+        ) )
