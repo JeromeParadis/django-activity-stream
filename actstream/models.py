@@ -122,7 +122,10 @@ class Action(models.Model):
         def fget(self):
             return [text for enum, text in actstream_settings.VERB_CHOICES if enum == self.verb_id][0]
         def fset(self, value):
-            self.verb_id = [enum for enum, text in actstream_settings.VERB_CHOICES if text == value][0]
+            if type(value).__name__ == 'int':
+                self.verb_id = [enum for enum, text in actstream_settings.VERB_CHOICES if enum == value][0]
+            else:
+                self.verb_id = [enum for enum, text in actstream_settings.VERB_CHOICES if unicode(text) == unicode(value)][0]
         return locals()
     verb = property(**verb())
 

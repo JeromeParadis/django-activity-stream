@@ -93,14 +93,11 @@ def action_handler(verb, **kwargs):
     newaction = Action(
         actor_content_type=ContentType.objects.get_for_model(actor),
         actor_object_id=actor.pk,
+        verb=verb,
         public=bool(kwargs.pop('public', True)),
         description=kwargs.pop('description', None),
         timestamp=kwargs.pop('timestamp', now())
     )
-    try:
-        newaction.verb_id = verb
-    except:
-        newaction.verb = unicode(verb),
 
     for opt in ('target', 'action_object'):
         obj = kwargs.pop(opt, None)
