@@ -1,11 +1,12 @@
 import django
 from django.conf import settings
-from django.db.models import get_model
 from django.utils.translation import ugettext_lazy as _
 
 SETTINGS = getattr(settings, 'ACTSTREAM_SETTINGS', {})
 
 def get_models():
+    from django.db.models import get_model
+
     """
     Returns a lookup of 'app_label.model': <model class> from ACTSTREAM_SETTINGS['MODELS']
     Only call this right before you need to inspect the models

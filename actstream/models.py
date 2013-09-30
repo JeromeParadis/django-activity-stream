@@ -17,10 +17,10 @@ from actstream import settings as actstream_settings
 from actstream.signals import action
 from actstream.actions import action_handler
 from actstream.managers import FollowManager
-#from actstream.compat import get_user_model
+from actstream.compat import get_user_model
 
-#User = get_user_model()
-from django.contrib.auth.models import User
+User = get_user_model()
+#from django.contrib.auth.models import User
 
 class Follow(models.Model):
     """
