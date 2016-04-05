@@ -1,7 +1,7 @@
 from random import choice
 
 from django.db import connection
-from django.db.models.loading import get_model
+from django.apps.apps import get_model
 from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import Group
