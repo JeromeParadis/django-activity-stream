@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext as _
 
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes import fields
 from django.contrib.contenttypes.models import ContentType
 
 try:
@@ -30,7 +30,7 @@ class Follow(models.Model):
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.CharField(max_length=255)
-    follow_object = generic.GenericForeignKey()
+    follow_object = fields.GenericForeignKey()
     actor_only = models.BooleanField("Only follow actions where the object is "
         "the target.", default=True)
     started = models.DateTimeField(default=now)
@@ -74,7 +74,7 @@ class Action(models.Model):
     """
     actor_content_type = models.ForeignKey(ContentType, related_name='actor')
     actor_object_id = models.CharField(max_length=255)
-    actor = generic.GenericForeignKey('actor_content_type', 'actor_object_id')
+    actor = fields.GenericForeignKey('actor_content_type', 'actor_object_id')
 
     verb_id = models.PositiveIntegerField(choices=actstream_settings.VERB_CHOICES)
     description = models.TextField(blank=True, null=True)
@@ -82,14 +82,14 @@ class Action(models.Model):
     target_content_type = models.ForeignKey(ContentType, related_name='target',
         blank=True, null=True)
     target_object_id = models.CharField(max_length=255, blank=True, null=True)
-    target = generic.GenericForeignKey('target_content_type',
+    target = fields.GenericForeignKey('target_content_type',
         'target_object_id')
 
     action_object_content_type = models.ForeignKey(ContentType,
         related_name='action_object', blank=True, null=True)
     action_object_object_id = models.CharField(max_length=255, blank=True,
         null=True)
-    action_object = generic.GenericForeignKey('action_object_content_type',
+    action_object = fields.GenericForeignKey('action_object_content_type',
         'action_object_object_id')
 
     timestamp = models.DateTimeField(default=now)
@@ -183,9 +183,9 @@ def setup_generic_relations():
         for field in ('actor', 'target', 'action_object'):
             attr = '%s_actions' % field
             if isinstance(getattr(model, attr, None),
-                          generic.ReverseGenericRelatedObjectsDescriptor):
+                          fields.ReverseGenericRelatedObjectsDescriptor):
                 break
-            generic.GenericRelation(Action,
+            fields.GenericRelation(Action,
                 content_type_field='%s_content_type' % field,
                 object_id_field='%s_object_id' % field,
                 related_name='actions_with_%s_%s_as_%s' % (
