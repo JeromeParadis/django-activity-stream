@@ -1,7 +1,7 @@
 from django.db.models.base import ModelBase
 from django.core.exceptions import ImproperlyConfigured
 
-from actstream.settings import get_models
+# from actstream.settings import get_models
 
 
 class ModelNotActionable(ImproperlyConfigured):
@@ -41,5 +41,5 @@ def check_actionable_model(model):
     ``ModelNotActionable`` exception.
     """
     model = model if hasattr(model, 'objects') else model.__class__
-    if not model in get_models().values():
-        raise ModelNotActionable(model)
+    # if not model in get_models().values():
+    #     raise ModelNotActionable(model)

@@ -173,31 +173,31 @@ followers = Follow.objects.followers
 following = Follow.objects.following
 
 
-def setup_generic_relations():
-    """
-    Set up GenericRelations for actionable models.
-    """
-    for model in actstream_settings.get_models().values():
-        if not model:
-            continue
-        for field in ('actor', 'target', 'action_object'):
-            attr = '%s_actions' % field
-            if isinstance(getattr(model, attr, None),
-                          fields.ReverseGenericRelatedObjectsDescriptor):
-                break
-            fields.GenericRelation(Action,
-                content_type_field='%s_content_type' % field,
-                object_id_field='%s_object_id' % field,
-                related_name='actions_with_%s_%s_as_%s' % (
-                    model._meta.app_label, model._meta.module_name, field),
-            ).contribute_to_class(model, attr)
+# def setup_generic_relations():
+#     """
+#     Set up GenericRelations for actionable models.
+#     """
+#     for model in actstream_settings.get_models().values():
+#         if not model:
+#             continue
+#         for field in ('actor', 'target', 'action_object'):
+#             attr = '%s_actions' % field
+#             if isinstance(getattr(model, attr, None),
+#                           fields.ReverseGenericRelatedObjectsDescriptor):
+#                 break
+#             fields.GenericRelation(Action,
+#                 content_type_field='%s_content_type' % field,
+#                 object_id_field='%s_object_id' % field,
+#                 related_name='actions_with_%s_%s_as_%s' % (
+#                     model._meta.app_label, model._meta.module_name, field),
+#             ).contribute_to_class(model, attr)
 
-            # @@@ I'm not entirely sure why this works
-            setattr(Action, 'actions_with_%s_%s_as_%s' % (
-                model._meta.app_label, model._meta.module_name, field), None)
+#             # @@@ I'm not entirely sure why this works
+#             setattr(Action, 'actions_with_%s_%s_as_%s' % (
+#                 model._meta.app_label, model._meta.module_name, field), None)
 
 
-setup_generic_relations()
+# setup_generic_relations()
 
 
 if actstream_settings.USE_JSONFIELD:
