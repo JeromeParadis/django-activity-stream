@@ -6,13 +6,11 @@ except ImportError:
 __version_info__ = {
     'major': 0,
     'minor': 4,
-    'micro': 5,
-    'releaselevel': 'beta',
-    'serial': 8
+    'micro': 6,
 }
 
 
-def get_version(release_level=True):
+def get_version(release_level=False):
     """
     Return the formatted version information
     """
